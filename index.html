@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Mehra Scanner</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="css/style.css"></head><body>
+
+<div id="lk" class="ov" hidden style="z-index:50;align-items:center;justify-content:center;gap:12px;padding:20px">
+<h2>🔒 Mehra Scanner</h2><div id="lpin" style="width:260px;display:grid;gap:8px"><input type="password" id="lpi" inputmode="numeric" placeholder="PIN daalo"><button class="pr" id="lpb">PIN se kholo</button></div>
+<div id="lpat"><div class="pat" id="lpt"></div><p style="text-align:center"><button class="pr" id="lpab">Pattern se kholo</button></p></div>
+<button id="lbio" class="pr">👆 Fingerprint / Face</button><button id="lkc">Cancel</button></div>
+
+<main>
+<div id="sw" hidden><input type="text" id="sq" placeholder="🔍 File ke andar ya naam me search karo"><div id="sr" class="mu"></div></div>
+<section class="tab">
+<h1>Mehra Scanner</h1><p class="mu">Scan, edit, compress, PDF tools aur search, sab ek jagah.</p><div class="scene" aria-hidden="true"><div class="stack"><i></i><i></i><i></i><u></u></div></div>
+<button class="btn pr big" onclick="camOn()">📷 Camera se photo lo (ek ke baad ek)</button>
+<label class="btn big">📸 Phone camera app se 1 photo<input type="file" id="cam" accept="image/*" capture="environment" hidden></label>
+<label class="btn big">🖼 Gallery / PDF import karo<input type="file" id="gal" accept="image/*,application/pdf,.txt,.md,.csv,.json,.html,.docx,.xlsx,.xls,.tsv,.xml" multiple hidden></label>
+<p class="mu">PDF import karoge to har page alag image ban jayega. Phir Pages tab se PDF, JPG ya PNG me convert karo.</p>
+</section>
+
+<section class="tab" hidden>
+<h2>Pages (<span id="cnt">0</span>)</h2><small>Number ke hisaab se arrange hote hain. ← → se order badlo.</small>
+<p class="fl"><button class="pr" onclick="oex()">Export / Convert</button><label class="btn">➕ File jodo<input type="file" id="g2" accept="image/*,application/pdf,.txt,.md,.csv,.json,.html,.docx,.xlsx,.xls,.tsv,.xml" multiple hidden></label><button onclick="camOn()">📷 Aur photo lo</button><button onclick="blank()">📄 Blank page</button><button onclick="clr()">Naya scan</button></p>
+<div class="grid" id="pg"></div></section>
+
+<section class="tab" hidden><h2>Saved documents</h2><div id="dl"></div></section>
+
+<section class="tab" hidden><h2>Settings</h2>
+<div class="set"><b>Watermark</b><label><input type="checkbox" id="wmo"> Export par watermark lagao</label><input type="text" id="wmt" placeholder="Watermark text"></div>
+<div class="set"><b>App lock</b><input type="password" id="np" inputmode="numeric" placeholder="Naya PIN (kam se kam 4 digit)"><button onclick="spin()">PIN set karo</button>
+<small>Pattern (kam se kam 4 dots tap karo)</small><div class="pat" id="pt"></div><button onclick="spat()">Pattern set karo</button>
+<button onclick="bioSet()">Fingerprint / Face set karo</button><button onclick="rmlk()">Saare lock hatao</button></div>
+</section>
+</main>
+
+<nav><button class="on" onclick="go(0)">📷<br>Scan</button><button onclick="go(1)">📑<br>Pages</button><button onclick="go(2)">📁<br>Docs</button><button onclick="go(3)">⚙️<br>Settings</button></nav>
+
+<div id="ed" class="ov" hidden>
+<header><button onclick="edx()">✕</button><button onclick="edn(-1)">‹</button><b id="epn">Edit</b><button onclick="edn(1)">›</button><button onclick="undo()">↶ Undo</button><button class="pr" onclick="eds()">Done</button></header>
+<div id="eb"><input type="text" id="eq" placeholder="🔍 Is file/page ke andar search karo"><small id="er"></small></div>
+<div class="cv"><div id="wr"><canvas id="C"></canvas><div id="cb" hidden></div></div></div>
+<div id="tt"><button data-p="f">Filter</button><button data-p="c">Crop</button><button data-p="r">Rotate</button><button data-p="t">Text</button><button data-p="d">Highlight</button><button data-p="s">Resize</button><button data-p="p">Photo</button></div>
+<div id="tp">
+<div class="pn" id="p_f"><div class="fl"><button onclick="flt('')">Original</button><button onclick="flt('grayscale(1) contrast(2.2) brightness(1.15)')">B&amp;W</button><button onclick="flt('grayscale(1)')">Gray</button><button onclick="flt('contrast(1.3) saturate(1.3) brightness(1.08)')">Magic</button><button onclick="flt('brightness(1.3) contrast(1.1)')">Bright</button><button class="pr" onclick="ai()">✨ AI Auto</button></div>
+<label>Brightness<input type="range" id="sb" min="50" max="150" value="100"></label><label>Contrast<input type="range" id="sc" min="50" max="200" value="100"></label></div>
+<div class="pn" id="p_c"><small>Photo par ungli se drag karke crop box banao, phir sliders se fine-tune karo.</small><div class="fl"><label>Left<input type="range" id="cl" min="0" max="45" value="0"></label><label>Top<input type="range" id="ct" min="0" max="45" value="0"></label><label>Right<input type="range" id="cr" min="0" max="45" value="0"></label><label>Bottom<input type="range" id="cbm" min="0" max="45" value="0"></label></div><button class="pr" onclick="crp()">Crop lagao</button></div>
+<div class="pn" id="p_r"><div class="fl"><button onclick="rot(-1)">⟲ Left</button><button onclick="rot(1)">⟳ Right</button><button onclick="rot(2)">180°</button></div></div>
+<div class="pn" id="p_t"><input type="text" id="tx" placeholder="Text likho, phir photo par tap karo"><div class="fl"><label>Size<input type="range" id="ts" min="2" max="12" value="5"></label><label>Color<input type="color" id="tc" value="#d00000"></label></div></div>
+<div class="pn" id="p_d"><div class="fl"><button onclick="sm('hl')">🖍 Highlight</button><button onclick="sm('pen')">✏️ Pen</button><button onclick="sm('wh')">⬜ White-out</button><input type="color" id="pc" value="#1a44d0"></div><label>Moti line<input type="range" id="pw" min="1" max="10" value="4"></label><small>Purana text mitane ke liye White-out lagao, phir Text tab se naya likho (PDF text edit).</small></div>
+<div class="pn" id="p_s"><small>Size badlo:</small><div class="fl"><button onclick="scl(.25)">25%</button><button onclick="scl(.5)">50%</button><button onclick="scl(.75)">75%</button><button onclick="scl(1.5)">150%</button><button onclick="scl(2)">200%</button></div><div class="fl"><input type="number" id="rw" placeholder="Width px"><input type="number" id="rh" placeholder="Height px"></div><label><input type="checkbox" id="rl" checked> Ratio lock</label><button class="pr" onclick="rsz()">Resize karo</button><div class="fl"><input type="number" id="kb" placeholder="Target size KB (jaise 50)"><button class="pr" onclick="cmp()">KB me compress</button></div><small id="ks"></small></div>
+<div class="pn" id="p_p"><div class="fl"><label class="btn">➕ Photo jodo<input type="file" id="ipi" accept="image/*" hidden></label><label class="btn">🔁 Page ki photo badlo<input type="file" id="rpi" accept="image/*" hidden></label></div><label>Jodi hui photo ki width %<input type="range" id="iw" min="5" max="100" value="30"></label><small>Photo chunne ke baad page par tap karo.</small></div>
+</div></div>
+
+<div id="ex" class="dlg" hidden><div>
+<h2>Export / Convert</h2>
+<input type="text" id="en" placeholder="File ka naam">
+<select id="ef"><option value="pdf">PDF</option><option value="jpg">JPG images</option><option value="png">PNG images</option></select><select id="ea"><option value="dl">Download</option><option value="zip">ZIP me download</option><option value="share">Share (WhatsApp, Drive...)</option><option value="none">Sirf app me save</option></select><input type="number" id="ek" placeholder="Har page max size KB (optional)">
+<input type="password" id="ep" placeholder="PDF password (optional)">
+<label><input type="checkbox" id="el"> App lock se protect (PIN / pattern / biometric)</label>
+<div class="fl"><button onclick="$('#ex').hidden=1">Cancel</button><button class="pr" onclick="doex()">Save karo</button></div></div></div>
+<div id="cm" class="ov" hidden style="z-index:40;background:#000"><video id="cmv" autoplay playsinline muted style="flex:1;min-height:0;width:100%;object-fit:cover"></video><div style="display:flex;align-items:center;justify-content:space-around;padding:14px;background:#000"><button class="pr" onclick="camX()">✓ Done</button><button id="shut" aria-label="Photo kheecho" onclick="snap()" style="width:70px;height:70px;border-radius:50%;background:#fff;border:5px solid var(--pr);padding:0"></button><b id="cmn" style="color:#fff;min-width:70px;text-align:center">0 photo</b></div></div>
+<div id="sh" class="sheet" hidden></div><div id="toast"></div>
+
+<script src="js/app.js"></script></body></html>
