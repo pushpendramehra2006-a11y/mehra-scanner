@@ -114,3 +114,47 @@ async function camOn(){try{ST=await navigator.mediaDevices.getUserMedia({video:{
 function snap(){const v=$('#cmv');if(!v.videoWidth)return;const s=Math.min(1,2200/Math.max(v.videoWidth,v.videoHeight)),c=mk(v.videoWidth*s,v.videoHeight*s);c.getContext('2d').drawImage(v,0,0,c.width,c.height);pages.push(c.toDataURL('image/jpeg',.9));cmc++;$('#cmn').textContent=cmc+' photo';toast('Page '+pages.length+' add hua')}
 function camX(){if(ST)ST.getTracks().forEach(t=>t.stop());ST=null;$('#cm').hidden=1;if(cmc){go(1);ed(pages.length-cmc)}}
 rp();if(hasLk())ask(0);
+
+// --- Theme Toggle Logic ---
+const themeBtn = document.getElementById('themeToggleBtn');
+if (themeBtn) {
+  const currentTheme = localStorage.getItem('app-theme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  themeBtn.textContent = currentTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
+
+  themeBtn.addEventListener('click', () => {
+    const active = document.documentElement.getAttribute('data-theme');
+    const nextTheme = active === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('app-theme', nextTheme);
+    themeBtn.textContent = nextTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
+  });
+}
+
+// --- Help Modal Logic ---
+const helpModal = document.getElementById('helpModal');
+const helpBtn = document.getElementById('helpBtn');
+const closeHelpBtn = document.getElementById('closeHelpBtn');
+
+if (helpBtn && helpModal) {
+  helpBtn.addEventListener('click', () => {
+    helpModal.style.display = 'flex';
+  });
+}
+if (closeHelpBtn && helpModal) {
+  closeHelpBtn.addEventListener('click', () => {
+    helpModal.style.display = 'none';
+  });
+}
+window.addEventListener('click', (e) => {
+  if (e.target === helpModal) {
+    helpModal.style.display = 'none';
+  }
+});
+
+// --- Auto Orientation Handler ---
+window.addEventListener('resize', () => {
+  const isLandscape = window.innerWidth > window.innerHeight;
+  document.body.classList.toggle('landscape-mode', isLandscape);
+});

@@ -5,7 +5,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<link rel="stylesheet" href="css/style.css"></head><body>
+<link rel="stylesheet" href="css/style.css"></head><body><div class="top-action-bar"><button id="themeToggleBtn" class="top-bar-btn">🌙 Dark</button><button id="helpBtn" class="top-bar-btn">❓ Help</button></div>
 
 <div id="lk" class="ov" hidden style="z-index:50;align-items:center;justify-content:center;gap:12px;padding:20px">
 <h2>🔒 Mehra Scanner</h2><div id="lpin" style="width:260px;display:grid;gap:8px"><input type="password" id="lpi" inputmode="numeric" placeholder="PIN daalo"><button class="pr" id="lpb">PIN se kholo</button></div>
@@ -66,4 +66,4 @@
 <div id="sh" class="sheet" hidden></div><div id="toast"></div>
 
 <script src="js/app.js"></script>
-<script>if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"))</script></body></html>
+<script>if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js"))</script><div id="helpModal" class="help-overlay"><div class="modal-box"><div class="modal-head"><h3>📖 Mehra Scanner Guide</h3><button id="closeHelpBtn" class="close-modal-btn"></body>times;</button></div><div class="feature-guide"><b>📷 Camera Scan:</b> Phone camera se ek-ek karke clear photo lein aur direct PDF ya image me export karein.</div><div class="feature-guide"><b>📂 Gallery / PDF Import:</b> Gallery se images ya puraane PDFs, DOCX aur Excel sheets ko import karke inspect aur convert karein.</div><div class="feature-guide"><b>🔄 Auto Rotation:</b> Screen rotate hone par layout automatically screen ke hisab se adjust hoga.</div><div class="feature-guide"><b>⚡ Offline Support:</b> Is app ko chalane ke liye internet ki zaroorat nahi hai. Sabhi tools offline chalenge.</div><div class="feature-guide"><b>🌙 Light / Dark Mode:</b> Upar diye button se apni marzi se theme switch kar sakte hain.</div></div></div></body></html>
