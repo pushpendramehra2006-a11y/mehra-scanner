@@ -158,3 +158,60 @@ window.addEventListener('resize', () => {
   const isLandscape = window.innerWidth > window.innerHeight;
   document.body.classList.toggle('landscape-mode', isLandscape);
 });
+
+// --- Prev Thumbnail Preview in Camera ---
+const origSnap = window.snap;
+if (typeof snap === 'function') {
+  const thumb = document.createElement('img');
+  thumb.id = 'prevThumbImg';
+  document.body.appendChild(thumb);
+
+  window.addEventListener('click', (e) => {
+    if (e.target && (e.target.id === 'cm' || e.target.classList.contains('shutter'))) {
+      setTimeout(() => {
+        if (typeof pages !== 'undefined' && pages.length > 0) {
+          thumb.src = pages[pages.length - 1];
+          thumb.style.display = 'block';
+        }
+      }, 150);
+    }
+  });
+}
+
+// --- Help Guide Modal Setup ---
+const modal = document.createElement('div');
+modal.id = 'helpModalOverlay';
+modal.innerHTML = `
+  <div class="help-box">
+    <div class="help-head">
+      <h3 style="margin:0">Mehra Scanner Guide</h3>
+      <button id="closeHelpModal" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer">&times;</button>
+    </div>
+    <div class="help-item"><b>📷 Camera Scan:</b> Single ya continuous photos click karein. Side me last pic preview dikhega.</div>
+    <div class="help-item"><b>📂 PDF / File Import:</b> PDF ya photos import karke unhe alag-alag pages me edit karein.</div>
+    <div class="help-item"><b>🔒 PDF Password Protection:</b> Settings se apni PDF file par password lock laga sakte hain.</div>
+    <div class="help-item"><b>🔄 Screen Rotation:</b> Screen ghumane par sabhi buttons screen ke mutabiq adjust hote hain.</div>
+    <div class="help-item"><b>⚡ Offline Ready:</b> Internet band hone par bhi poora scanner kaam karega.</div>
+  </div>
+`;
+document.body.appendChild(modal);
+
+document.addEventListener('click', (e) => {
+  if (e.target && (e.target.id === 'helpBtn' || e.target.textContent.includes('Help'))) {
+    modal.classList.add('open');
+  }
+  if (e.target && e.target.id === 'closeHelpModal') {
+    modal.classList.remove('open');
+  }
+  if (e.target === modal) {
+    modal.classList.remove('open');
+  }
+});
+
+// --- Settings Fix: App Lock -> PDF Password Lock ---
+const lockTitle = document.querySelector('.card h3, h3');
+document.querySelectorAll('*').forEach(el => {
+  if (el.children.length === 0 && el.textContent.trim() === 'App lock') {
+    el.textContent = 'PDF Password Protection';
+  }
+});
