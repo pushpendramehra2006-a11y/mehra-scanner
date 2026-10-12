@@ -169,3 +169,123 @@ body::before{content:"";position:fixed;inset:-25%;z-index:-1;opacity:.55;backgro
   color: #111827 !important;
   border: 1px solid rgba(0, 0, 0, 0.15) !important;
 }
+
+/* Help Modal Fix */
+#helpModalOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 99999;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+#helpModalOverlay.active {
+  display: flex !important;
+}
+
+.help-content-card {
+  background: var(--card, #1e1e2d);
+  color: #fff;
+  border-radius: 14px;
+  max-width: 460px;
+  width: 100%;
+  padding: 20px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.help-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+
+.help-header h3 { margin: 0; font-size: 18px; }
+.help-close-btn { background: none; border: none; font-size: 24px; color: #fff; cursor: pointer; }
+.help-item { margin-bottom: 12px; }
+.help-item b { color: #38bdf8; display: block; font-size: 14px; margin-bottom: 3px; }
+.help-item p { margin: 0; font-size: 13px; opacity: 0.85; line-height: 1.4; }
+
+/* Camera Mini Preview Thumbnail */
+#camPrevThumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: 2px solid #fff;
+  object-fit: cover;
+  position: absolute;
+  right: 20px;
+  bottom: 25px;
+  display: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* Universal Dynamic Button & Bar Auto-Adjustment */
+button, .btn, .icon-btn, .top-bar-btn, label.btn {
+  font-size: clamp(12px, 3.2vw, 16px) !important;
+  padding: clamp(6px, 1.8vh, 14px) clamp(10px, 3vw, 20px) !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  touch-action: manipulation !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Big Action Buttons (Camera / Gallery on Home) */
+.btn.big, label.btn.big {
+  width: min(92%, 460px) !important;
+  margin: 8px auto !important;
+  min-height: clamp(48px, 6.5vh, 64px) !important;
+  font-size: clamp(14px, 3.8vw, 17px) !important;
+}
+
+/* Top Editor Navigation & Utility Bars */
+.top-action-bar, header, .nav-bar, .editor-header {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: clamp(4px, 1.2vw, 10px) !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: clamp(6px, 1vh, 12px) clamp(8px, 2vw, 16px) !important;
+}
+
+/* Pagination (<, 2/3, >) and small header controls */
+.top-action-bar button, header button, .editor-header button {
+  min-width: clamp(34px, 8vw, 44px) !important;
+  min-height: clamp(34px, 4.5vh, 44px) !important;
+  padding: 4px 8px !important;
+}
+
+/* Bottom Navigation Bar (Scan, Pages, Docs, Settings) */
+.tab-bar, nav.bottom-nav, footer.tabs {
+  display: flex !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  padding: clamp(6px, 1vh, 10px) 0 !important;
+  height: clamp(54px, 7.5vh, 70px) !important;
+}
+
+.tab-bar button, nav.bottom-nav button {
+  font-size: clamp(10px, 2.7vw, 13px) !important;
+  padding: 4px !important;
+}
+
+/* Landscape / Screen Rotation Support */
+@media (orientation: landscape) {
+  button, .btn {
+    padding: clamp(4px, 1.2vh, 8px) clamp(8px, 2vw, 14px) !important;
+    font-size: clamp(11px, 2vw, 14px) !important;
+  }
+  .btn.big, label.btn.big {
+    min-height: clamp(40px, 8vh, 50px) !important;
+  }
+}
