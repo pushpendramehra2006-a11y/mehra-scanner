@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.mehra.scanner",
+        "sha256_cert_fingerprints": ["CA:8F:52:53:2A:23:E9:A4:5A:77:FE:A7:D0:C2:B9:CC:EC:E9:CE:05:20:50:6C:B3:5A:F0:EE:55:60:E4:C9:5E"]
+      }
+    }]
